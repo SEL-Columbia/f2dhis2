@@ -1,0 +1,42 @@
+/data
+error.log
+load_script.logs
+load_script.pid
+local_settings.py
+pyxform
+search_index
+site_media/attachments
+site_media/css/sass/.sass-cache/*
+tmp/*
+xform_manager_dataset.json
+
+# folder to hold csv files
+csvs
+
+# media folder used by tests
+# todo: figure out a way to clean this up rather than ignore it.
+/test_media
+/media
+
+# file created by tests
+registration.xml
+
+# for a local virtualenv (as done in mangrove repo)
+ve/
+
+.~lock.*
+.DS_Store
+.idea
+.odk
+.project
+.pydevproject
+.sass-cache
+.settings
+
+*.bak
+*.pyc
+*.sql
+*.sqlite3
+*.tar.gz
+*~
+*orig
