@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <dataValueSet xmlns="http://dhis2.org/schema/dxf/2.0" dataSet="{{ dataSet }}" completeDate="{{ completeDate }}" period="{{ period }}" orgUnit="{{ orgUnit }}">
 {% for dataElement in dataElements %}<dataValue dataElement="{{ dataElement.id }}" value="{{ dataElement.value }}" />
 {% endfor %}</dataValueSet>
