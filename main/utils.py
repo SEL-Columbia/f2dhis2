@@ -1,15 +1,13 @@
 import base64
-import httplib
 import urllib
-from django.conf import settings
 import httplib2
 import os.path
 
-from urlparse import urlparse
+from django.conf import settings
 from django.utils import simplejson
-
 from django.template.base import Template
 from django.template.context import Context
+
 from main.models import DataValueSet, DataSet
 
 
@@ -75,24 +73,18 @@ def get_data_value_set_xml(dataValueSet, data=None):
 
 
 def get_data_from_formub(dataValueSet, id=None):
-    url = urlparse(dataValueSet.service.url)
-    params = None
+    params = ''
     if id is not None:
         params = urllib.urlencode({'query': '{"_id": %s}' % id})
-    data_api_path = url.path + u"/api?" + params
-    print params
-    conn = httplib.HTTPConnection(url.netloc)
-    conn.request("GET", data_api_path)
-    req = conn.getresponse()
+    data_api_path = dataValueSet.service.url + u"/api?" + params
+    http = httplib2.Http()
+    req, content = http.request(data_api_path, 'GET')
     if req.status == 200:
-        data = req.read()
-        print data
         try:
-            return simplejson.loads(data)
+            return simplejson.loads(content)
         except ValueError, e:
-            req.close()
+            # TODO: Handle it gracefully
             raise e
-    req.close()
     return None
 
 
