@@ -40,3 +40,4 @@ ve/
 *.tar.gz
 *~
 *orig
+*.mysh
