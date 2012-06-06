@@ -122,3 +122,6 @@ class DataQueue(models.Model):
     service = models.ForeignKey(FormhubService, verbose_name=_(u"Formhub Service"))
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
     modified_on = models.DateTimeField(_(u"Modified on"), auto_now=True)
+
+    def __unicode__(self):
+        return u"%s - %s" % (self.service, self.data_id)
