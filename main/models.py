@@ -117,6 +117,7 @@ class DataQueue(models.Model):
         verbose_name_plural = _(u"Form Data Elements")
 
     processed = models.BooleanField(_(u"Processed"), default=False)
+    processed_on = models.DateTimeField(_(u"Processed on"), null=True)
     data_id = models.CharField(_(u"Formhub Id"), max_length=32)
     service = models.ForeignKey(FormhubService, verbose_name=_(u"Formhub Service"))
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
