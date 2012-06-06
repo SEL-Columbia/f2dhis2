@@ -1,4 +1,5 @@
 import base64
+from datetime import datetime
 import urllib
 import httplib2
 import os.path
@@ -8,7 +9,7 @@ from django.utils import simplejson
 from django.template.base import Template
 from django.template.context import Context
 
-from main.models import DataValueSet, DataSet
+from main.models import DataValueSet, DataSet, DataQueue
 
 
 class DataValueSetInterface(object):
@@ -111,3 +112,29 @@ def test_f2dhis():
             xml = get_data_value_set_xml(dvs, record)
             print xml
             send_to_dhis2(xml)
+
+
+def process_data_queue():
+    """
+    Process all queued data
+    returns number of processed records
+    """
+    processed = 0
+    for dq in DataQueue.objects.filter(processed=False):
+        success = False
+        for dvs in DataValueSet.objects.filter(service=dq.service):
+            try:
+                data = get_data_from_formub(dvs, dq.data_id)
+            except Exception, e:
+                pass
+            else:
+                for record in data:
+                    xml = get_data_value_set_xml(dvs, record)
+                    send_to_dhis2(xml)
+                    success = True
+        if success:
+            dq.processed = True
+            dq.processed_on = datetime.now()
+            dq.save()
+            processed += 1
+    return processed
