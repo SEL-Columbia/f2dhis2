@@ -97,7 +97,7 @@ def send_to_dhis2(xml):
     resp, content = http.request(settings.DHIS2_DATA_VALUE_SET_URL, 'POST',
         body=xml,
         headers=headers)
-    print resp.status, content
+    return resp.status, content
 
 
 def test_f2dhis():
@@ -130,7 +130,7 @@ def process_data_queue():
             else:
                 for record in data:
                     xml = get_data_value_set_xml(dvs, record)
-                    send_to_dhis2(xml)
+                    status, response = send_to_dhis2(xml)
                     success = True
         if success:
             dq.processed = True
