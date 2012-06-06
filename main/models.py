@@ -106,3 +106,18 @@ class FormDataElement(models.Model):
 
     def __unicode__(self):
         return u"%s <=> %s" % (self.data_element, self.form_field)
+
+
+class DataQueue(models.Model):
+
+    class Meta:
+        app_label = 'main'
+        db_table = 'dhis_data_queue'
+        verbose_name = _(u"Form Data Element")
+        verbose_name_plural = _(u"Form Data Elements")
+
+    processed = models.BooleanField(_(u"Processed"), default=False)
+    data_id = models.CharField(_(u"Formhub Id"), max_length=32)
+    service = models.ForeignKey(FormhubService, verbose_name=_(u"Formhub Service"))
+    created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
+    modified_on = models.DateTimeField(_(u"Modified on"), auto_now=True)
