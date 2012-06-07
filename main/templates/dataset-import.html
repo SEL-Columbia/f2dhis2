@@ -1,3 +1,5 @@
+{% load i18n %}
+
 {% block content %}
 <form action="{% url dataset-import %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -6,4 +8,12 @@
     </table>
     <input type="submit" value="Import" />
 </form>
+    {% if rs and rs.ds_status %}
+        <div class="alert-status">{{ rs.ds_status }}</div>
+    {% endif %}
+    {% if rs and rs.dataSet %}
+        {% trans "Successfully imported" %} {{ rs.dataSet }} {% trans "with" %} {{ rs.dataElements }} {% trans "DataElements." %}
+    {% else %}
+        {% trans "Failed to import DataSet." %}
+    {% endif %}
 {% endblock %}
