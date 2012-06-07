@@ -100,6 +100,18 @@ def send_to_dhis2(xml):
     return resp.status, content
 
 
+def load_from_dhis2(url):
+    """
+        returns content loaded by given dhis2 url
+    """
+    auth = base64.encodestring( settings.DHIS2_USERNAME + ':' + settings.DHIS2_PASSWORD )
+    headers = {'Authorization' : 'Basic ' + auth}
+    http = httplib2.Http()
+    http.add_credentials(settings.DHIS2_USERNAME, settings.DHIS2_PASSWORD)
+    resp, content = http.request(url, headers=headers)
+    return resp.status, content
+
+
 def test_f2dhis():
     dvs = DataValueSet.objects.all()[0]
     try:
