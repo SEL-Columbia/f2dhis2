@@ -86,7 +86,7 @@ class DataValueSet(models.Model):
         verbose_name_plural = _(u"Data Value Sets")
 
     service = models.ForeignKey(FormhubService, verbose_name=_(u"Formhub Service"))
-    org_unit = models.CharField(_(u"Organization Unit"), max_length=32)
+    organization_unit = models.ForeignKey(OrganizationUnit)
     data_set = models.ForeignKey(DataSet, verbose_name=_(u"Data Set"))
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
     modified_on = models.DateTimeField(_(u"Modified on"), auto_now=True)
