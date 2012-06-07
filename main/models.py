@@ -63,6 +63,20 @@ class DataSet(models.Model):
         return cls.PERIOD_CHOICES[period]
 
 
+class OrganizationUnit(models.Model):
+
+    class Meta:
+        app_label = 'main'
+        db_table = 'dhis_orgunit'
+        verbose_name = _(u"Organization Unit")
+        verbose_name_plural = _(u"Organization Units")
+
+    org_unit_id = models.CharField(_(u"ID"), max_length=32, unique=True)
+    name = models.CharField(_(u"Name"), max_length=32)
+    created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
+    modified_on = models.DateTimeField(_(u"Modified on"), auto_now=True)
+
+
 class DataValueSet(models.Model):
 
     class Meta:
