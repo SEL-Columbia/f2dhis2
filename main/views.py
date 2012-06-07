@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.utils import simplejson
 from django.utils.translation import ugettext as _
+from main.forms import DataSetImportForm
 
 from main.models import FormhubService, DataQueue
 
@@ -27,3 +28,12 @@ def initiate_formhub_request(request, id_string, id):
                                                 mimetype='application/json')
     return HttpResponse(simplejson.dumps(response),
                             mimetype='application/json')
+
+
+def dataset_import(request):
+    context = RequestContext(request)
+    context.form = DataSetImportForm()
+    if request.method == 'POST':
+        form = DataSetImportForm(request.POST)
+        context.rs = form.ds_import()
+    return render_to_response("dataset-import.html", context_instance=context)
