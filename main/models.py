@@ -88,8 +88,9 @@ class DataElement(models.Model):
         db_table = 'dhis_data_element'
         verbose_name = _(u"Data Element")
         verbose_name_plural = _(u"Data Elements")
+        unique_together = ('data_set', 'data_element_id')
 
-    data_element_id = models.CharField(_(u"ID"), max_length=32, unique=True)
+    data_element_id = models.CharField(_(u"ID"), max_length=32)
     name = models.CharField(_(u"Name"), max_length=32)
     data_set = models.ForeignKey(DataSet, verbose_name=_(u"Data Set"))
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
