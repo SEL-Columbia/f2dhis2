@@ -29,6 +29,12 @@ class DataSet(models.Model):
     FREQUENCY_WEEKLY = 52
     FREQUENCY_DAILY = 256
 
+    PERIOD_CHOICES = {'yearly': FREQUENCY_YEARLY,
+                      'quarterly': FREQUENCY_QUARTERLY,
+                      'monthly': FREQUENCY_MONTHLY,
+                      'weekly': FREQUENCY_WEEKLY,
+                      'daily': FREQUENCY_DAILY}
+
     FREQUENCY_CHOICES = (
         (FREQUENCY_DAILY, _(u"Daily")),
         (FREQUENCY_WEEKLY, _(u"Weekly")),
@@ -51,6 +57,10 @@ class DataSet(models.Model):
 
     def __unicode__(self):
         return u"%s (%s)" % (self.name, self.data_set_id)
+
+    @classmethod
+    def get_frequency(cls, period):
+        return cls.PERIOD_CHOICES[period]
 
 
 class DataValueSet(models.Model):
