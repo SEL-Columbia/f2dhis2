@@ -3,8 +3,8 @@ from django import forms
 from django.db.utils import IntegrityError
 from django.utils.translation import ugettext as _
 
-from main.models import DataSet, DataElement
-from main.utils import load_from_dhis2
+from main.models import DataSet, DataElement, FormhubService
+from main.utils import load_from_dhis2, load_form_from_formhub
 
 
 class DataSetImportForm(forms.Form):
@@ -42,3 +42,20 @@ class DataSetImportForm(forms.Form):
             return summary
         else:
             return False
+
+
+class FormhubImportForm(forms.Form):
+    formhub_url = forms.URLField(verify_exists=False,
+        label=_(u"Formhub Form URL"), required=True)
+
+    def fh_import(self):
+        if self.is_valid():
+            cleaned_url = self.cleaned_data['formhub_url']
+            form_data = load_form_from_formhub(cleaned_url)
+            if isinstance(form_data, dict):
+                fhs = FormhubService(url=cleaned_url,
+                    id_string=form_data['id_string'],
+                    name=form_data['name'], json=json.dumps(form_data))
+                fhs.save()
+                return fhs
+        return False
