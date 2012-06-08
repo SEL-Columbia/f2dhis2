@@ -13,6 +13,8 @@ urlpatterns = patterns('',
         'main.views.initiate_formhub_request', name='home'),
     url(r'^dataset-import$',
         'main.views.dataset_import', name='dataset-import'),
+    url(r'^fh-import$',
+        'main.views.formhub_import', name='fh-import'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
