@@ -7,6 +7,7 @@ from django.utils.translation import ugettext as _
 from main.forms import DataSetImportForm, FormhubImportForm
 
 from main.models import FormhubService, DataQueue
+from main.utils import process_data_queue
 
 
 def main(request):
@@ -60,3 +61,9 @@ def formhub_import(request):
             else:
                 context.message = _(u"Failed to import from formhub.")
     return  render_to_response("formhub-import.html", context_instance=context)
+
+
+def process_dataqueue(request):
+    context = RequestContext(request)
+    context.processed = process_data_queue()
+    return render_to_response("process-queue.html", context_instance=context)
