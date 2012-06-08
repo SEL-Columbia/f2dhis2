@@ -12,7 +12,7 @@
         <div class="alert-status">{{ rs.ds_status }}</div>
     {% endif %}
     {% if rs and rs.dataSet %}
-        {% trans "Successfully imported" %} {{ rs.dataSet }} {% trans "with" %} {{ rs.dataElements }} {% trans "DataElements." %}
+        {% trans "Successfully imported" %} {{ rs.dataSet }} {% trans "with" %} {{ rs.dataElements }} {% trans "DataElements and" %} {{ rs.dataElements }} {% trans "OrganizationUnits." %}
     {% else %}
         {% trans "Failed to import DataSet." %}
     {% endif %}
