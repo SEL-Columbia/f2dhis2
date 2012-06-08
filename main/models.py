@@ -61,7 +61,7 @@ class DataSet(models.Model):
 
     @classmethod
     def get_frequency(cls, period):
-        return cls.PERIOD_CHOICES[period]
+        return cls.PERIOD_CHOICES[period.lower()]
 
 
 class OrganizationUnit(models.Model):
