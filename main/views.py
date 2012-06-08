@@ -1,9 +1,10 @@
+from django.db.utils import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.utils import simplejson
 from django.utils.translation import ugettext as _
-from main.forms import DataSetImportForm
+from main.forms import DataSetImportForm, FormhubImportForm
 
 from main.models import FormhubService, DataQueue
 
@@ -37,3 +38,20 @@ def dataset_import(request):
         form = DataSetImportForm(request.POST)
         context.rs = form.ds_import()
     return render_to_response("dataset-import.html", context_instance=context)
+
+
+def formhub_import(request):
+    context = RequestContext(request)
+    context.form = FormhubImportForm()
+    if request.method == 'POST':
+        form = FormhubImportForm(request.POST)
+        try:
+            fhs = form.fh_import()
+        except IntegrityError, e:
+            context.message = _(u"Form has already been uploaded.")
+        else:
+            if fhs:
+                context.fhservice = fhs
+            else:
+                context.message = _(u"Failed to import from formhub.")
+    return  render_to_response("formhub-import.html", context_instance=context)

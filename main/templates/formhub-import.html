@@ -1,0 +1,17 @@
+{% load i18n %}
+
+{% block content %}
+<form action="{% url fh-import %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input type="submit" value="Import" />
+</form>
+    {% if message %}
+        <div class="alert-status">{{ message }}</div>
+    {% endif %}
+    {% if fhservice %}
+        {% trans "Successfully imported" %} {{ fhservice }}: {{ fhservice.url }}.
+    {% endif %}
+{% endblock %}
