@@ -9,10 +9,11 @@ class FormhubService(models.Model):
         db_table = 'dhis_formhub_servicet'
         verbose_name = _(u"Formhub Service")
         verbose_name_plural = _(u"Formhub Services")
+        unique_together = ('id_string', 'url')
 
-    url = models.URLField(_(u"URL"))
+    id_string = models.CharField(_(u"ID"), max_length=32, null=False)
+    url = models.URLField(_(u"URL"), null=False)
     name = models.CharField(_(u"Name"), max_length=32)
-    id_string = models.CharField(_(u"ID"), max_length=32)
     json = models.TextField(_(u"Json"), )
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
     modified_on = models.DateTimeField(_(u"Modified on"), auto_now=True)
