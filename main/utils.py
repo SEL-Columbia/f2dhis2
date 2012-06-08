@@ -150,3 +150,18 @@ def process_data_queue():
             dq.save()
             processed += 1
     return processed
+
+
+def load_form_from_formhub(url):
+    ENDS_WITH = u'form.json'
+    if not url.endswith(ENDS_WITH):
+        url = u'/'.join([url.strip('/'), ENDS_WITH])
+    http = httplib2.Http()
+    req, content = http.request(url, 'GET')
+    if req.status == 200:
+        try:
+            return simplejson.loads(content)
+        except ValueError, e:
+            # TODO: Handle it gracefully
+            raise e
+    return None
