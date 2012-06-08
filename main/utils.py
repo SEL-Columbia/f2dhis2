@@ -56,7 +56,10 @@ class DataValueSetInterface(object):
         return period
 
     def load_dict(self):
-        rs = {'dataSet': self.dataValueSet.data_set.data_set_id, 'orgUnit': self.dataValueSet.org_unit}
+        rs = {
+            'dataSet': self.dataValueSet.data_set.data_set_id,
+            'orgUnit': self.dataValueSet.organization_unit.org_unit_id
+        }
         if self.data is not None and len(self.data):
             self.load_data_elements()
             rs['period'] = self.get_period()
