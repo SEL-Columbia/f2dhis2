@@ -9,6 +9,11 @@ from main.forms import DataSetImportForm, FormhubImportForm
 from main.models import FormhubService, DataQueue
 
 
+def main(request):
+    context = RequestContext(request)
+    return render_to_response("index.html", context_instance=context)
+
+
 def initiate_formhub_request(request, id_string, id):
     context = RequestContext(request)
     try:
