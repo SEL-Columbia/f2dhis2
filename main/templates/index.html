@@ -1,0 +1,17 @@
+{% load i18n %}
+
+{% block content %}
+<h1>Formhub to DHIS2 Utility</h1>
+        <ol>
+            <li>
+                <a href="{% url dataset-import %}">Import DHIS2 DataSet</a>
+            </li>
+            <li>
+                <a href="{% url fh-import %}">Import Formhub Form</a>
+            </li>
+            <li> Create a Value DataSet</li>
+            <li> Initiate a Formhub DATA Request</li>
+            <li> <a href="{% url process-queue %}">Process Data Queue</a>: sends data to dhis2</li>
+            <li>Access dhis2 site and check if data has been posted</li>
+        </ol>
+{% endblock %}
