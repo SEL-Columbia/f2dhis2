@@ -15,11 +15,13 @@ class DataSetImportForm(forms.Form):
         if self.is_valid():
             summary = {}
             cleaned_url = self.cleaned_data['data_set_url']
-            if cleaned_url[-4:] != '.json':
+            if not cleaned_url.endswith('.json'):
                 cleaned_url += '.json'
             status, ds_data = load_from_dhis2(cleaned_url)
             if status == 200:
                 data = json.loads(ds_data)
+                if not isinstance(data, dict):
+                    return False
                 # period
                 frequency = DataSet.get_frequency(data['periodType'])
                 try:
