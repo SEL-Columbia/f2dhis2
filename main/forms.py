@@ -3,7 +3,7 @@ from django import forms
 from django.db.utils import IntegrityError
 from django.utils.translation import ugettext as _
 
-from main.models import DataSet, DataElement, FormhubService
+from main.models import DataSet, DataElement, FormhubService, OrganizationUnit
 from main.utils import load_from_dhis2, load_form_from_formhub
 
 
@@ -37,8 +37,13 @@ class DataSetImportForm(forms.Form):
                         name=de['name'],
                         data_set=ds)
                     element.save()
+                for orgunit in data['organisationUnits']:
+                    org = OrganizationUnit(org_unit_id=orgunit['id'],
+                        name=orgunit['name'])
+                    org.save()
                 summary['dataSet'] = ds
                 summary['dataElements'] = data['dataElements'].__len__()
+                summary['orgUnits'] = data['organisationUnits'].__len__()
             return summary
         else:
             return False
