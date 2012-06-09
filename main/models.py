@@ -142,8 +142,8 @@ class DataQueue(models.Model):
     class Meta:
         app_label = 'main'
         db_table = 'dhis_data_queue'
-        verbose_name = _(u"Form Data Element")
-        verbose_name_plural = _(u"Form Data Elements")
+        verbose_name = _(u"Data Queue")
+        verbose_name_plural = _(u"Data Queue")
 
     processed = models.BooleanField(_(u"Processed"), default=False)
     processed_on = models.DateTimeField(_(u"Processed on"), null=True)
