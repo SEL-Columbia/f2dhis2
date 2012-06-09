@@ -13,7 +13,7 @@ class FormhubService(models.Model):
 
     id_string = models.CharField(_(u"ID"), max_length=32, null=False)
     url = models.URLField(_(u"URL"), null=False)
-    name = models.CharField(_(u"Name"), max_length=32)
+    name = models.CharField(_(u"Name"), max_length=100)
     json = models.TextField(_(u"Json"), )
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
     modified_on = models.DateTimeField(_(u"Modified on"), auto_now=True)
@@ -51,7 +51,7 @@ class DataSet(models.Model):
         verbose_name_plural = _(u"Data Sets")
 
     data_set_id = models.CharField(_(u"ID"), max_length=32, unique=True)
-    name = models.CharField(_(u"Name"), max_length=32)
+    name = models.CharField(_(u"Name"), max_length=100)
     frequency = models.PositiveIntegerField(choices=FREQUENCY_CHOICES, default=FREQUENCY_MONTHLY)
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
     modified_on = models.DateTimeField(_(u"Modified on"), auto_now=True)
@@ -73,7 +73,7 @@ class OrganizationUnit(models.Model):
         verbose_name_plural = _(u"Organization Units")
 
     org_unit_id = models.CharField(_(u"ID"), max_length=32, unique=True)
-    name = models.CharField(_(u"Name"), max_length=32)
+    name = models.CharField(_(u"Name"), max_length=100)
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
     modified_on = models.DateTimeField(_(u"Modified on"), auto_now=True)
 
@@ -109,7 +109,7 @@ class DataElement(models.Model):
         unique_together = ('data_set', 'data_element_id')
 
     data_element_id = models.CharField(_(u"ID"), max_length=32)
-    name = models.CharField(_(u"Name"), max_length=32)
+    name = models.CharField(_(u"Name"), max_length=100)
     data_set = models.ForeignKey(DataSet, verbose_name=_(u"Data Set"))
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
     modified_on = models.DateTimeField(_(u"Modified on"), auto_now=True)
