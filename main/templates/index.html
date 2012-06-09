@@ -9,9 +9,55 @@
             <li>
                 <a href="{% url fh-import %}">Import Formhub Form</a>
             </li>
-            <li> Create a Value DataSet</li>
-            <li> Initiate a Formhub DATA Request</li>
+            <li>
+                <a href="/admin/main/datavalueset">Create a Value DataSet</a>
+                <p>
+                    Links the Formhub form to the DHIS2 DataSet and organization
+                </p>
+            </li>
+            <li><pre>Specify form data elements in the admin section i.e /admin/main/formdataelement/
+                - this links a DataValueSet with the form fields to dhis2 DataElements
+                - e.g formhub form field 'population_under_5' to "Total population < 5 years (DTtCy7Nx5jH)"
+                - multiple form data elements are added to the DataValueSet</pre>
+            </li>
+            <li> Initiate a Formhub DATA Request
+                <p>
+                    curl http://fh.ukanga.com/<i>[formhub_id_string]</i>/post/<i>[formhub submission _id]</i>
+                </p>
+            </li>
             <li> <a href="{% url process-queue %}">Process Data Queue</a>: sends data to dhis2</li>
             <li>Access dhis2 site and check if data has been posted</li>
         </ol>
+<pre>
+The Formhub to DHIS2 tool is functional but still a lot more needs to be done. But currently you can test its functionality.
+1. Import the DHIS2 DataSet, the input is a url
+    e.g http://apps.dhis2.org/demo/api/dataSets/aLpVgfXiz0f
+    - this imports the DataSet, attached DataElements and Organization Units
+2.  Import the Formhub Form, the input is a url
+    e.g http://formhub.org/ukanga/forms/dhis2form
+    - this saves the form url, name, id_string and form json
+    - this form has the fields that you would want to push to DHIS2
+    - one of the fields should be a datefield named period
+    - currently also ensure that both form and data are shared i.e open access
+3. Create a DataValueSet, in the admin section i.e /admin/main/datavalueset
+    - this links the formhub form to the dhis2 dataset and also specifies the organization unit
+4. Specify form data elements in the admin section i.e /admin/main/formdataelement/
+    - this links a DataValueSet with the form fields to dhis2 DataElements
+    - e.g formhub form field 'population_under_5' to "Total population < 5 years (DTtCy7Nx5jH)"
+    - multiple form data elements are added to the DataValueSet
+5. Initiate Formhub Data Request, this should be the link formhub should hit for every submission
+    - i.e curl http://fh.ukanga.com/[formhub_id_string]/post/[formhub submission _id]
+    - e.g curl http://fh.ukanga.com/dhis2form/post/118024
+    - you should get a response similar to {"status": true, "contents": "OK"}
+    - this means that the data is now queued
+    - To find out the _id of a submission currently you need to access the data on formhub via api
+        e.g http://formhub.org/ukanga/forms/dhis2form/api, look for  "_id": 118024 where 118024 is the id you seek.
+6. Process data queue i.e http://fh.ukanga.com/process-dqueue
+    - this creates the DataValueSet xml and posts to DHIS2
+    if success full you should check dhis2(http://apps.dhis2.org/demo/dhis-web-dataentry/index.action) on data entry to see if your data was posted,
+    things to note:
+        - The organization you selected for you DataValueSet, you might need to follow links in the DataSet link to see the parent organization e.g with http://apps.dhis2.org/demo/api/dataSets/aLpVgfXiz0f, click on your organization's html link, see if it has a parent and follow the chain up. On dhis2 you select your organization
+        - The DataSet for your DataValueSet
+        - The Date/Period which can be the year, month and possibly date you had specified in your form submission
+</pre>
 {% endblock %}
