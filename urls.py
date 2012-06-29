@@ -10,7 +10,7 @@ urlpatterns = patterns('',
     # url(r'^f2dhis2/', include('f2dhis2.foo.urls')),
 
     url(r'^$', 'main.views.main', name='home'),
-    url(r'^(?P<id_string>[^/]+)/post/(?P<id>[^/]+)$',
+    url(r'^(?P<id_string>[^/]+)/post/(?P<uuid>[^/]+)$',
         'main.views.initiate_formhub_request', name='home'),
     url(r'^dataset-import$',
         'main.views.dataset_import', name='dataset-import'),

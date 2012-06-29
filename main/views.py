@@ -15,7 +15,7 @@ def main(request):
     return render_to_response("index.html", context_instance=context)
 
 
-def initiate_formhub_request(request, id_string, id):
+def initiate_formhub_request(request, id_string, uuid):
     context = RequestContext(request)
     try:
         fs = FormhubService.objects.get(id_string=id_string)
@@ -23,7 +23,7 @@ def initiate_formhub_request(request, id_string, id):
         context.contents = _(u"Unknown Service")
         context.status = False
     else:
-        dq, created = DataQueue.objects.get_or_create(service=fs, data_id=id)
+        dq, created = DataQueue.objects.get_or_create(service=fs, data_id=uuid)
         dq.processed = False
         dq.save()
         context.status = context.status = True

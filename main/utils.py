@@ -79,7 +79,7 @@ def get_data_value_set_xml(dataValueSet, data=None):
 def get_data_from_formub(dataValueSet, id=None):
     params = ''
     if id is not None:
-        params = urllib.urlencode({'query': '{"_id": %s}' % id})
+        params = urllib.urlencode({'query': '{"_uuid": "%s"}' % id})
     data_api_path = dataValueSet.service.url + u"/api?" + params
     http = httplib2.Http()
     req, content = http.request(data_api_path, 'GET')
@@ -147,6 +147,7 @@ def process_data_queue():
                     xml = get_data_value_set_xml(dvs, record)
                     status, response = send_to_dhis2(xml)
                     success = True
+                    print xml, response
         if success:
             dq.processed = True
             dq.processed_on = datetime.now()
