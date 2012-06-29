@@ -40,15 +40,19 @@ class DataValueSetInterface(object):
         self.data_elements = elements
 
     def get_period(self):
-        period = self.data['period']
+        # period = self.data['period']
+        strdate = datetime.strptime(self.data['period'], '%Y-%m-%d')
         if self.dataValueSet.data_set.frequency == DataSet.FREQUENCY_YEARLY:
-            period = ''.join(period.split('-')[0])
+            period = strdate.strftime("%Y")
         elif self.dataValueSet.data_set.frequency == DataSet.FREQUENCY_MONTHLY:
-            period = ''.join(period.split('-')[:2])
+            period = strdate.strftime("%Y%m")
+        elif  self.dataValueSet.data_set.frequency == DataSet.FREQUENCY_WEEKLY:
+            period =  "%s%s" % (strdate.strftime("%Y"),
+                                strdate.isocalendar()[1])
         elif self.dataValueSet.data_set.frequency == DataSet.FREQUENCY_DAILY:
-            period = ''.join(period.split('-')[:3])
+            period = strdate.strftime("%Y%m%d")
         else:
-            period = ''.join(period.split('-'))
+            period = strdate.strftime("%Y%m%d")
         return period
 
     def get_complete_date(self):
