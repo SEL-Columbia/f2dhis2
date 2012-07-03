@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.db.utils import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
@@ -37,6 +38,7 @@ def initiate_formhub_request(request, id_string, uuid):
                             mimetype='application/json')
 
 
+@login_required
 def dataset_import(request):
     context = RequestContext(request)
     context.form = DataSetImportForm()
@@ -48,6 +50,7 @@ def dataset_import(request):
     return render_to_response("dataset-import.html", context_instance=context)
 
 
+@login_required
 def formhub_import(request):
     context = RequestContext(request)
     context.form = FormhubImportForm()
@@ -64,7 +67,7 @@ def formhub_import(request):
                 context.message = _(u"Failed to import from formhub.")
     return  render_to_response("formhub-import.html", context_instance=context)
 
-
+@login_required
 def process_dataqueue(request):
     context = RequestContext(request)
     context.processed = process_data_queue()

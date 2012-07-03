@@ -2,3 +2,4 @@ Django
 httplib2
 South
 django_extensions
+django-registration

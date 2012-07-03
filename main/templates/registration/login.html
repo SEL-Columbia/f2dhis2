@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section id="login">
+  <div class="page-header">
+    <h1>Sign in</h1>
+  </div>
+
+  <div class="row">
+    <div class="span8">
+      <form class="well" method="post" action=".">
+        <table>
+          {{ form.as_table }}
+        </table>
+        {% csrf_token %}
+        <input type="submit" class="btn btn-large btn-primary" value="Sign in" />
+        <input type="hidden" name="next" value="{{ next }}" />
+      </form>
+      <p>Can't access your account? <a href="{% url auth_password_reset %}">Reset your password.</a></p>
+      <p>New to formhub? <a href="{% url registration_register %}">Create an account.</a></p>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
