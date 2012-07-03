@@ -43,6 +43,8 @@ def dataset_import(request):
     if request.method == 'POST':
         form = DataSetImportForm(request.POST)
         context.rs = form.ds_import()
+        if context.rs is False:
+            context.failed = True
     return render_to_response("dataset-import.html", context_instance=context)
 
 

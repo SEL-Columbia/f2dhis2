@@ -14,7 +14,7 @@
     {% endif %}
     {% if rs and rs.dataSet %}
         {% trans "Successfully imported" %} {{ rs.dataSet }} {% trans "with" %} {{ rs.dataElements }} {% trans "DataElements and" %} {{ rs.dataElements }} {% trans "OrganizationUnits." %}
-    {% else %}
+    {% elif failed %}
         {% trans "Failed to import DataSet." %}
     {% endif %}
 {% endblock %}
