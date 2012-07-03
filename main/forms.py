@@ -59,6 +59,8 @@ class FormhubImportForm(forms.Form):
     def fh_import(self):
         if self.is_valid():
             cleaned_url = self.cleaned_data['formhub_url']
+            if not cleaned_url.endswith('/form.json'):
+                cleaned_url += '/form.json'
             form_data = load_form_from_formhub(cleaned_url)
             if isinstance(form_data, dict):
                 fhs = FormhubService(url=cleaned_url,
