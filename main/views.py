@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.utils import simplejson
 from django.utils.translation import ugettext as _
-from main.forms import DataSetImportForm, FormhubImportForm, DataValueSetForm
+from main.forms import DataSetImportForm, FormhubImportForm, DataValueSetForm, FormDataElementForm
 
 from main.models import FormhubService, DataQueue
 from main.utils import process_data_queue
@@ -85,3 +85,16 @@ def create_datavalueset(request):
             context.success = True
     context.form = form
     return  render_to_response("dvs.html", context_instance=context)
+
+
+@login_required
+def match_datavalueset_to_data_elements(request):
+    context = RequestContext(request)
+    form = FormDataElementForm()
+    if request.method == 'POST':
+        form = FormDataElementForm(request.POST)
+        if form.is_valid():
+            # form.save()
+            context.success = True
+    context.form = form
+    return  render_to_response("dvs-to-elements.html", context_instance=context)

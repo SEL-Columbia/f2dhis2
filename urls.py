@@ -21,6 +21,8 @@ urlpatterns = patterns('',
         'main.views.process_dataqueue', name='process-queue'),
     url(r'^create-dvs',
         'main.views.create_datavalueset', name='create-dvs'),
+    url(r'^match-elements',
+        'main.views.match_datavalueset_to_data_elements', name='match-de'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
