@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'f2dhis2.views.home', name='home'),
     # url(r'^f2dhis2/', include('f2dhis2.foo.urls')),
+    (r'^accounts/', include('registration.backends.default.urls')),
 
     url(r'^$', 'main.views.main', name='home'),
     url(r'^(?P<id_string>[^/]+)/post/(?P<uuid>[^/]+)$',
