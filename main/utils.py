@@ -55,6 +55,9 @@ class DataValueSetInterface(object):
             period = strdate.strftime("%Y%m%d")
         return period
 
+    def get_organization_unit(self):
+        return self.data['location']
+
     def get_complete_date(self):
         period = self.data['period']
         return period
@@ -62,7 +65,7 @@ class DataValueSetInterface(object):
     def load_dict(self):
         rs = {
             'dataSet': self.dataValueSet.data_set.data_set_id,
-            'orgUnit': self.dataValueSet.organization_unit.org_unit_id
+            'orgUnit': self.get_organization_unit()
         }
         if self.data is not None and len(self.data):
             self.load_data_elements()
