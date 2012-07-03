@@ -121,13 +121,14 @@ def match_datavalueset_to_data_elements(request):
 
 
 def get_matchdvsform(request, dvs_id):
-    print dvs_id
+    """
+    Returns the form elements string of FHDataElementForm
+    given a data value set id
+    """
     context = RequestContext(request)
     form = FHDataElementForm(request.GET)
     form.set_data_elements_choices(dvs_id)
     dvs = DataValueSet.objects.get(pk=dvs_id)
     form.set_fh_fields(dvs.service)
-    if request.method == 'POST':
-        form = FHDataElementForm(request.POST)
     context.form = form
     return  render_to_response("dvs-to-elements-form.html", context_instance=context)
