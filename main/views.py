@@ -5,9 +5,9 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.utils import simplejson
 from django.utils.translation import ugettext as _
-from main.forms import DataSetImportForm, FormhubImportForm, DataValueSetForm, FormDataElementForm
+from main.forms import DataSetImportForm, FormhubImportForm, DataValueSetForm, FHDataElementForm
 
-from main.models import FormhubService, DataQueue
+from main.models import FormhubService, DataQueue, DataValueSet, DataElement, FormDataElement
 from main.utils import process_data_queue
 
 
@@ -90,11 +90,44 @@ def create_datavalueset(request):
 @login_required
 def match_datavalueset_to_data_elements(request):
     context = RequestContext(request)
-    form = FormDataElementForm()
+    form = FHDataElementForm()
     if request.method == 'POST':
-        form = FormDataElementForm(request.POST)
+        form = FHDataElementForm(request.POST)
+        dvs = DataValueSet.objects.get(pk=int(request.POST['dvs']))
+        form.set_fh_fields(dvs.service)
         if form.is_valid():
             # form.save()
-            context.success = True
+            de = DataElement.objects.get(pk=form.cleaned_data['data_elements'])
+            try:
+                fde = FormDataElement()
+                fde.data_value_set = dvs
+                fde.form_field = form.cleaned_data['fh_fields']
+                fde.data_element = de
+                fde.save()
+            except IntegrityError:
+                context.success = False
+                context.msg = _(u"Match already saved.")
+            else:
+                context.success = True
+                context.msg = _(u"Successfully saved.")
+        else:
+            context.success = False
+            context.msg = _(u"Failed to save.")
+        if request.is_ajax():
+            response = {'success': context.success, 'msg': context.msg}
+            return HttpResponse(simplejson.dumps(response))
     context.form = form
     return  render_to_response("dvs-to-elements.html", context_instance=context)
+
+
+def get_matchdvsform(request, dvs_id):
+    print dvs_id
+    context = RequestContext(request)
+    form = FHDataElementForm(request.GET)
+    form.set_data_elements_choices(dvs_id)
+    dvs = DataValueSet.objects.get(pk=dvs_id)
+    form.set_fh_fields(dvs.service)
+    if request.method == 'POST':
+        form = FHDataElementForm(request.POST)
+    context.form = form
+    return  render_to_response("dvs-to-elements-form.html", context_instance=context)

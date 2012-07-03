@@ -23,6 +23,9 @@ urlpatterns = patterns('',
         'main.views.create_datavalueset', name='create-dvs'),
     url(r'^match-elements',
         'main.views.match_datavalueset_to_data_elements', name='match-de'),
+    url(r'^dvs-elements-form/(?P<dvs_id>[^/]+)$',
+        'main.views.get_matchdvsform',
+        name='match-de-form'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

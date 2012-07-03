@@ -3,18 +3,46 @@
 
 {% block content %}
         {% if form %}
-<form action="{% url match-de %}" method="post" enctype="multipart/form-data">
+<form id="dvsdeform" action="{% url match-de %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <table>
+    <table id="dvsdeformtable">
         {{ form.as_table }}
     </table>
     <input type="submit" value="Save" />
 </form>
         {% endif %}
-    {% if message %}
-        <div class="alert-status">{{ message }}</div>
-    {% endif %}
+        <div id="alert-status" class="alert-status"></div>
+
     {% if success %}
         {% trans "Successfully saved." %}
     {% endif %}
+        <script type="text/javascript">
+            $(document).ready(function(){
+                var reloadForm = function(){
+                    if(this.value != ""){
+                        url = '{% url match-de-form 0 %}'.replace(0, this.value)
+                        $.get(url + '?dvs='+this.value, function(data){
+                            $("#dvsdeformtable").html(data);
+                            $("#id_dvs").on("change", reloadForm);
+                        })
+                    }
+                };
+                $("#id_dvs").on("change", reloadForm);
+                $("#dvsdeform").on("submit", function(evt){
+                    evt.preventDefault();
+                    if($("#id_dvs").val() == "")
+                        return;
+                    $.post(this.action, $(this).serialize(), function(data){
+                        data = $.parseJSON(data);
+                        if(data.msg)
+                            $("#alert-status").html(data.msg);
+                        if(data.success)
+                            $("#dvsdeform").each(function(){
+                                this.reset();
+                            });
+                    });
+                });
+
+            });
+        </script>
 {% endblock %}
