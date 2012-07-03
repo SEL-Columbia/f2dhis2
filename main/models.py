@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import simplejson
 from django.utils.translation import ugettext as _
 
 
@@ -20,6 +21,14 @@ class FormhubService(models.Model):
 
     def __unicode__(self):
         return u"%s (%s)" % (self.name, self.id_string)
+
+    def get_form_fields(self):
+        y = simplejson.loads(self.json)
+        rs = ()
+        if y.has_key('children'):
+            for v in y['children']:
+                rs += ((v['name'], v['label']),)
+        return rs
 
 
 class OrganizationUnit(models.Model):
