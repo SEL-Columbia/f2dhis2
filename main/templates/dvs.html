@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+        {% if form %}
+<form action="{% url create-dvs %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input type="submit" value="Save" />
+</form>
+        {% endif %}
+    {% if message %}
+        <div class="alert-status">{{ message }}</div>
+    {% endif %}
+    {% if success %}
+        {% trans "Successfully saved." %}
+    {% endif %}
+{% endblock %}

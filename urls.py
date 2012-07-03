@@ -19,6 +19,8 @@ urlpatterns = patterns('',
         'main.views.formhub_import', name='fh-import'),
     url(r'^process-dqueue$',
         'main.views.process_dataqueue', name='process-queue'),
+    url(r'^create-dvs',
+        'main.views.create_datavalueset', name='create-dvs'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
