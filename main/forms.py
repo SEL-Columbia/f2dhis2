@@ -1,9 +1,10 @@
 import json
 from django import forms
 from django.db.utils import IntegrityError
+from django.forms.models import ModelForm
 from django.utils.translation import ugettext as _
 
-from main.models import DataSet, DataElement, FormhubService, OrganizationUnit
+from main.models import DataSet, DataElement, FormhubService, OrganizationUnit, DataValueSet
 from main.utils import load_from_dhis2, load_form_from_formhub
 
 
@@ -69,3 +70,8 @@ class FormhubImportForm(forms.Form):
                 fhs.save()
                 return fhs
         return False
+
+
+class DataValueSetForm(ModelForm):
+    class Meta:
+        model = DataValueSet
