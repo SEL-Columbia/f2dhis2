@@ -89,6 +89,7 @@ class DataValueSet(models.Model):
         db_table = 'dhis_data_value_set'
         verbose_name = _(u"Data Value Set")
         verbose_name_plural = _(u"Data Value Sets")
+        unique_together = ('service', 'data_set')
 
     service = models.ForeignKey(FormhubService, verbose_name=_(u"Formhub Service"))
     data_set = models.ForeignKey(DataSet, verbose_name=_(u"Data Set"))
