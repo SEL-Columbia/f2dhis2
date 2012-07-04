@@ -54,6 +54,12 @@ def dataset_import(request):
     return render_to_response("dataset-import.html", context_instance=context)
 
 
+def show_datasets(request):
+    context = RequestContext(request)
+    context.datasets = DataSet.objects.all()
+    return render_to_response("dataset-import.html", context_instance=context)
+
+
 @login_required
 def formhub_import(request):
     context = RequestContext(request)
