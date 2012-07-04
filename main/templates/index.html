@@ -4,60 +4,93 @@
 {% block content %}
 <h1>Formhub to DHIS2 Utility</h1>
 
-        <div class="row-fluid">
-            <div class="span4">
-                <h4><a href="{% url dataset-import %}">1. Import DHIS2 DataSet</a></h4>
-                <p>e.g http://apps.dhis2.org/demo/api/dataSets/aLpVgfXiz0f
-                   <br />
-                    This imports the DataSet, attached DataElements and Organization Units</p>
-            </div>
-            <div class="span4">
-                <h4><a href="{% url fh-import %}">2. Import Formhub Form</a></h4>
-                <p>e.g http://formhub.org/ukanga/forms/dhis2form
-                    <br />
-                    <ul><li>this saves the form url, name, id_string and form json</li>
-                    <li>this form has the fields that you would want to push to DHIS2</li>
-                    <li>one of the fields should be a datefield named period</li>
-                   <li>currently also ensure that both form and data are shared i.e open access</li>
-                </ul>
-                </p>
-            </div>
-            <div class="span4">
-                <h4><a href="{% url create-dvs %}">3. Create a Value DataSet</a></h4>
-                <p>Links the Formhub form to the DHIS2 DataSet.
-                </p>
-            </div>
-        </div>
+<div class="row-fluid">
+    <div class="span4">
+        <h4><a href="{% url dataset-import %}">1. Import DHIS2 DataSet</a></h4>
+
+        <p>e.g http://apps.dhis2.org/demo/api/dataSets/aLpVgfXiz0f
+            <br/>
+            This imports the DataSet, attached DataElements and Organization
+            Units</p>
+    </div>
+    <div class="span4">
+        <h4><a href="{% url fh-import %}">2. Import Formhub Form</a></h4>
+
+        <p>e.g http://formhub.org/ukanga/forms/dhis2form
+            <br/>
+        <ul>
+            <li>this saves the form url, name, id_string and form json</li>
+            <li>this form has the fields that you would want to push to DHIS2
+            </li>
+            <li>one of the fields should be a datefield named period</li>
+            <li>currently also ensure that both form and data are shared i.e
+                open access
+            </li>
+        </ul>
+        </p>
+    </div>
+    <div class="span4">
+        <h4><a href="{% url create-dvs %}">3. Create a Value DataSet</a></h4>
+
+        <p>Links the Formhub form to the DHIS2 DataSet.
+        </p>
+    </div>
+</div>
 <div class="row-fluid">
 
     <div class="span4">
-        <h4><a href="{% url match-de %}"> 4. Specify form data elements in the admin section</a></h4>
-        <p>Specify form data elements in the admin section i.e /admin/main/formdataelement/
-        <ul><li>this links a DataValueSet with the form fields to dhis2 DataElements</li>
-            <li>e.g formhub form field 'population_under_5' to "Total population < 5 years (DTtCy7Nx5jH)"</li>
+        <h4><a href="{% url match-de %}"> 4. Specify form data elements in the
+            admin section</a></h4>
+
+        <p>Specify form data elements in the admin section i.e
+            /admin/main/formdataelement/
+        <ul>
+            <li>this links a DataValueSet with the form fields to dhis2
+                DataElements
+            </li>
+            <li>e.g formhub form field 'population_under_5' to "Total population
+                < 5 years (DTtCy7Nx5jH)"
+            </li>
             <li>multiple form data elements are added to the DataValueSet</li>
         </ul>
         </p>
     </div>
     <div class="span4">
-        <h4>5. Initiate Formhub Data Request, this should be the link formhub should hit for every submission</h4>
+        <h4>5. Initiate Formhub Data Request, this should be the link formhub
+            should hit for every submission</h4>
+
         <p>
-            - i.e curl http://fh.ukanga.com/[formhub_id_string]/post/[formhub submission _id]
-            - e.g curl http://fh.ukanga.com/dhis2form/post/118024
-            - you should get a response similar to {"status": true, "contents": "OK"}
-            - this means that the data is now queued
-            - To find out the _id of a submission currently you need to access the data on formhub via api
-            e.g http://formhub.org/ukanga/forms/dhis2form/api, look for  "_id": 118024 where 118024 is the id you seek.</p>
+        <ul>
+            <li>i.e curl http://fh.ukanga.com/%(id_string)s/post/%(uuid)s<br/>
+                e.g curl http://fh.ukanga.com/dhis2form/post/118024
+            </li>
+            <li>- you should get a response similar to <em>{"status": true,
+                "contents": "OK"}</em>.<br/>
+                This means that the data is now queued and would be processed
+                asynchronously almost immediately
+            </li>
+            <li>To find out the _id of a submission currently you need to access
+                the data on formhub via api
+                e.g http://formhub.org/ukanga/forms/dhis2form/api, look for
+                "_id": 118024 where 118024 is the id you seek.
+            </li>
+        </ul>
+        </p>
     </div>
     <div class="span4">
-        <h4><a href="{% url process-queue %}">6. Process data queue </a>i.e http://fh.ukanga.com/process-dqueue</h4>
-            <p> - this creates the DataValueSet xml and posts to DHIS2
-        if success full you should check dhis2(http://apps.dhis2.org/demo/dhis-web-dataentry/index.action) on data entry to see if your data was posted,
-        things to note:
-        - The organization you selected for you DataValueSet, you might need to follow links in the DataSet link to see the parent organization e.g with http://apps.dhis2.org/demo/api/dataSets/aLpVgfXiz0f, click on your organization's html link, see if it has a parent and follow the chain up. On dhis2 you select your organization
-        - The DataSet for your DataValueSet
-        - The Date/Period which can be the year, month and possibly date you had specified in your form submission</h4>
+        <h4>6. Check on DHIS2 deployment for posted data</h4>
+
+        <p>If success full you should check
+            dhis2 link i.e http://apps.dhis2.org/demo/dhis-web-dataentry/index.action on
+            data entry section to see if your data was posted.
+            <em>Note:</em>
+            <ul><li>Organization</li>
+            <li>The DataSet for your DataValueSet</li>
+            <li>The Date/Period which can be the year, month and possibly date you
+            had specified in your form submission</li>
+        </ul>
+        
 
     </div>
-    </div>
+</div>
 {% endblock %}
