@@ -2,6 +2,7 @@
 {% load i18n %}
 
 {% block content %}
+{% if form %}
 <form action="{% url dataset-import %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <table>
@@ -17,6 +18,7 @@
     {% elif failed %}
         {% trans "Failed to import DataSet." %}
     {% endif %}
+{% endif %}
 <table class="table table-condensed">
     <thead>
     <tr>
