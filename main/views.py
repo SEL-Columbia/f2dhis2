@@ -75,7 +75,15 @@ def formhub_import(request):
                 context.fhservice = fhs
             else:
                 context.message = _(u"Failed to import from formhub.")
+    context.fhforms = FormhubService.objects.all()
     return  render_to_response("formhub-import.html", context_instance=context)
+
+
+def show_formhub_forms(request):
+    context = RequestContext(request)
+    context.fhforms = FormhubService.objects.all()
+    return  render_to_response("formhub-import.html", context_instance=context)
+
 
 @login_required
 def process_dataqueue(request):

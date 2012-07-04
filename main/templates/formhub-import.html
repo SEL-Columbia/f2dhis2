@@ -2,6 +2,7 @@
 {% load i18n %}
 
 {% block content %}
+{% if form %}
 <form action="{% url fh-import %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <table>
@@ -15,4 +16,23 @@
     {% if fhservice %}
         {% trans "Successfully imported" %} {{ fhservice }}: {{ fhservice.url }}.
     {% endif %}
+{% endif %}
+
+<table class="table table-condensed">
+    <thead>
+    <tr>
+        <th>FormHub Form</th>
+        <th>Link</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for fh in fhforms %}
+    <tr>
+        <td>{{ fh }}</td>
+        <td>{{ fh.url }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
 {% endblock %}
