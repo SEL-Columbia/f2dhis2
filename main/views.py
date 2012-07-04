@@ -94,6 +94,7 @@ def create_datavalueset(request):
 def match_datavalueset_to_data_elements(request):
     context = RequestContext(request)
     form = FHDataElementForm()
+    context.fde_list = None
     if request.method == 'POST':
         form = FHDataElementForm(request.POST)
         dvs = DataValueSet.objects.get(pk=int(request.POST['dvs']))
@@ -116,8 +117,13 @@ def match_datavalueset_to_data_elements(request):
         else:
             context.success = False
             context.msg = _(u"Failed to save.")
+        context.fde_list = list(FormDataElement.objects\
+                        .filter(data_value_set=dvs)\
+                        .values('data_value_set', 
+                                'data_element__name', 'form_field'))
         if request.is_ajax():
-            response = {'success': context.success, 'msg': context.msg}
+            response = {'success': context.success, 'msg': context.msg,
+                        'fde_list': context.fde_list}
             return HttpResponse(simplejson.dumps(response))
     context.form = form
     return  render_to_response("dvs-to-elements.html", context_instance=context)

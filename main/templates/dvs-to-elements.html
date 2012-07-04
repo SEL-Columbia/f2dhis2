@@ -12,12 +12,30 @@
 </form>
         {% endif %}
         <div id="alert-status" class="alert-status"></div>
-
+<table class="table table-condensed" id="fde_list">
+    <thead>
+        <tr>
+            <th>DHIS2 Element</th>
+            <th>Formhub Form Field</th>
+        </tr>
+    </thead>
+    <tbody id="fde_listbd">
+    </tbody>
+</table>
     {% if success %}
         {% trans "Successfully saved." %}
     {% endif %}
         <script type="text/javascript">
             $(document).ready(function(){
+                var updateFDETable = function(data){
+                    $('#fde_list tbody').html('');
+                    $.each(data, function(key, value){
+                        trow = "<tr><td>" + value.data_element__name;
+                        trow += "</td><td>" + value.form_field;
+                        trow += "</td></tr>"
+                        $('#fde_list tbody').append(trow);
+                    });
+                };
                 var reloadForm = function(){
                     if(this.value != ""){
                         url = '{% url match-de-form 0 %}'.replace(0, this.value)
@@ -40,6 +58,8 @@
                             $("#dvsdeform").each(function(){
                                 this.reset();
                             });
+                        if(data.fde_list)
+                            updateFDETable(data.fde_list);
                     });
                 });
 
