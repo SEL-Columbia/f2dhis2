@@ -17,4 +17,21 @@
     {% elif failed %}
         {% trans "Failed to import DataSet." %}
     {% endif %}
+<table class="table table-condensed">
+    <thead>
+    <tr>
+        <th>DHIS2 DataSet</th>
+        <th>Link</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for ds in datasets %}
+          <tr>
+              <td>{{ ds }}</td>
+              <td>{{ ds.url }}</td>
+          </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
 {% endblock %}
