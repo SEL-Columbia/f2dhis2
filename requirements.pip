@@ -3,3 +3,5 @@ httplib2
 South
 django_extensions
 django-registration
+celery
+django-celery
