@@ -7,7 +7,7 @@ from django.utils import simplejson
 from django.utils.translation import ugettext as _
 from main.forms import DataSetImportForm, FormhubImportForm, DataValueSetForm, FHDataElementForm
 
-from main.models import FormhubService, DataQueue, DataValueSet, DataElement, FormDataElement
+from main.models import FormhubService, DataQueue, DataValueSet, DataElement, FormDataElement, DataSet
 from main.tasks import process_dqueue
 from main.utils import process_data_queue
 
@@ -50,6 +50,7 @@ def dataset_import(request):
         context.rs = form.ds_import()
         if context.rs is False:
             context.failed = True
+    context.datasets = DataSet.objects.all()
     return render_to_response("dataset-import.html", context_instance=context)
 
 
