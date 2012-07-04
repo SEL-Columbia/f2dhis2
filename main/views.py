@@ -8,6 +8,7 @@ from django.utils.translation import ugettext as _
 from main.forms import DataSetImportForm, FormhubImportForm, DataValueSetForm, FHDataElementForm
 
 from main.models import FormhubService, DataQueue, DataValueSet, DataElement, FormDataElement
+from main.tasks import process_dqueue
 from main.utils import process_data_queue
 
 
@@ -29,6 +30,8 @@ def initiate_formhub_request(request, id_string, uuid):
         dq.save()
         context.status = context.status = True
         context.contents = _(u"OK")
+        # call process queue asynchronously
+        process_dqueue.delay()
     response = {"status": context.status, "contents": context.contents}
     if 'callback' in request.GET and request.GET.get('callback') != '':
         callback = request.GET.get('callback')
