@@ -80,6 +80,7 @@ class DataSet(models.Model):
     name = models.CharField(_(u"Name"), max_length=100)
     frequency = models.PositiveIntegerField(choices=FREQUENCY_CHOICES, default=FREQUENCY_MONTHLY)
     organizations = models.ManyToManyField(OrganizationUnit)
+    url = models.URLField(_(u"URL"), null=True)
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
     modified_on = models.DateTimeField(_(u"Modified on"), auto_now=True)
 
