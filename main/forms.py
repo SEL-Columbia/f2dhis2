@@ -77,13 +77,12 @@ class DataValueSetForm(ModelForm):
         model = DataValueSet
 
 
-DVS_TUPLE = tuple([(dvs.pk, '%s' % dvs) for dvs in DataValueSet.objects.all()])
-DVS_SELECT_CHOICES = (('', ' ------ '),) + DVS_TUPLE
-DE_TUPLE = tuple([(de.pk, '%s' % de) for de in DataElement.objects.all()])
-DE_CHOICES = (('', ' ------ '),) + DE_TUPLE
-
-
 class FHDataElementForm(forms.Form):
+    DVS_TUPLE = tuple([(dvs.pk, '%s' % dvs) for dvs in DataValueSet.objects.all()])
+    DVS_SELECT_CHOICES = (('', ' ------ '),) + DVS_TUPLE
+    DE_TUPLE = tuple([(de.pk, '%s' % de) for de in DataElement.objects.all()])
+    DE_CHOICES = (('', ' ------ '),) + DE_TUPLE
+
     dvs = forms.ChoiceField(widget=forms.Select, choices=DVS_SELECT_CHOICES)
     data_elements = forms.ChoiceField(widget=forms.Select, choices=DE_CHOICES)
     fh_fields = forms.ChoiceField(widget=forms.Select)
