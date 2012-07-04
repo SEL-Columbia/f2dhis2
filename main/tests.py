@@ -73,3 +73,7 @@ class Main(TestCase):
         self.assertEqual(count, 0)
         self._import_formhub_form()
         self.assertEqual(FormhubService.objects.count(), count + 1)
+
+    def test_show_datasets(self):
+        response = self.client.get(reverse(views.show_datasets))
+        self.assertEqual(response.status_code, 200)
