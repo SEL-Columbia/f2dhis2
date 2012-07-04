@@ -87,7 +87,10 @@ def get_data_from_formub(dataValueSet, id=None):
     params = ''
     if id is not None:
         params = urllib.urlencode({'query': '{"_uuid": "%s"}' % id})
-    data_api_path = dataValueSet.service.url + u"/api?" + params
+    url = dataValueSet.service.url
+    if url.endswith('/form.json'):
+        url = url.replace('/form.json', '')
+    data_api_path = url + u"/api?" + params
     http = httplib2.Http()
     req, content = http.request(data_api_path, 'GET')
     if req.status == 200:
