@@ -153,11 +153,12 @@ def process_data_queue():
             except Exception, e:
                 pass
             else:
-                for record in data:
-                    xml = get_data_value_set_xml(dvs, record)
-                    status, response = send_to_dhis2(xml)
-                    success = True
-                    print xml, response
+                if data is not None and isinstance(data, list):
+                    for record in data:
+                        xml = get_data_value_set_xml(dvs, record)
+                        status, response = send_to_dhis2(xml)
+                        success = True
+                        print xml, response
         if success:
             dq.processed = True
             dq.processed_on = datetime.now()
