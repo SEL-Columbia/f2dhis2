@@ -150,12 +150,13 @@ LOGGING = {
     }
 }
 
+
+DHIS2_DATA_VALUE_SET_URL = "http://apps.dhis2.org/demo/api/dataValueSets"
+DHIS2_USERNAME = "admin"
+DHIS2_PASSWORD = "district"
+
 try:
     from local_settings import *
 except ImportError:
     print("You can override the default settings by adding a "
           "local_settings.py file.")
-
-DHIS2_DATA_VALUE_SET_URL = "http://apps.dhis2.org/demo/api/dataValueSets"
-DHIS2_USERNAME = "admin"
-DHIS2_PASSWORD = "district"
