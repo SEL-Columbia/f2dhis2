@@ -77,3 +77,7 @@ class Main(TestCase):
     def test_show_datasets(self):
         response = self.client.get(reverse(views.show_datasets))
         self.assertEqual(response.status_code, 200)
+
+    def test_show_formhub_forms(self):
+        response = self.client.get(reverse(views.show_formhub_forms))
+        self.assertEqual(response.status_code, 200)
