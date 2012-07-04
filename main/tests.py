@@ -26,6 +26,10 @@ class Main(TestCase):
         assert client.login(username=username, password=password)
         return client
 
+    def _create_user_and_login(self):
+        self.user = self._create_user(self.username, self.password)
+        self.client = self._login(self.username, self.password)
+
     def _import_dataset(self):
         post_data = {'data_set_url': self.ds_url}
         response = self.client.post(self.ds_import_url, post_data)
@@ -39,8 +43,7 @@ class Main(TestCase):
         response = self.client.get(self.ds_import_url)
         # need to login first, should redirect
         self.assertEqual(response.status_code, 302)
-        self.user = self._create_user(self.username, self.password)
-        self.client = self._login(self.username, self.password)
+        self._create_user_and_login()
         # should be successful this time
         response = self.client.get(self.ds_import_url)
         self.assertEqual(response.status_code, 200)
