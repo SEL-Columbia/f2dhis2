@@ -56,7 +56,7 @@ class Main(TestCase):
     def test_import_dataset(self):
         response = self.client.get(self.ds_import_url)
         # need to login first, should redirect
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 401)
         self._create_user_and_login()
         # should be successful this time
         response = self.client.get(self.ds_import_url)
@@ -70,7 +70,7 @@ class Main(TestCase):
     def test_import_formhub_form(self):
         response = self.client.get(self.ds_import_url)
         # need to login first, should redirect
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 401)
         self._create_user_and_login()
         # should be successful this time
         response = self.client.get(self.fh_import_url)
