@@ -28,7 +28,8 @@ class DataSetImportForm(forms.Form):
                 try:
                     ds = DataSet(data_set_id=data['id'],
                         name=data['name'],
-                        frequency=frequency, url=cleaned_url.replace('.json'))
+                        frequency=frequency,
+                        url=cleaned_url.replace('.json', ''))
                     ds.save()
                 except IntegrityError, e:
                     return {
