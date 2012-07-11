@@ -1,3 +1,4 @@
+import base64
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -31,6 +32,12 @@ class Main(TestCase):
     def _create_user_and_login(self):
         self.user = self._create_user(self.username, self.password)
         self.client = self._login(self.username, self.password)
+
+    def _set_auth_headers(self, username, password):
+        return {
+            'HTTP_AUTHORIZATION': 'Basic ' + base64.b64encode('%s:%s' \
+                % (username, password)),
+            }
 
     def _import_dataset(self):
         post_data = {'data_set_url': self.ds_url}
@@ -80,4 +87,19 @@ class Main(TestCase):
 
     def test_show_formhub_forms(self):
         response = self.client.get(reverse(views.show_formhub_forms))
+        self.assertEqual(response.status_code, 200)
+
+    def test_basic_http_authentication(self):
+        url = reverse(views.dataset_import)
+        # not logged in, redirects
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+        self._create_user(self.username, self.password)
+        # pass in Basic HTTP Authentication headers, invalid user/pass
+        response = self.client.get(url,
+            **self._set_auth_headers('dummy', 'nonexistent'))
+        self.assertEqual(response.status_code, 401)
+        # pass in Basic HTTP Authentication headers, correct user/pass
+        response = self.client.get(url,
+            **self._set_auth_headers(self.username, self.password))
         self.assertEqual(response.status_code, 200)
