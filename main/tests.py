@@ -93,7 +93,7 @@ class Main(TestCase):
         url = reverse(views.dataset_import)
         # not logged in, redirects
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 401)
         self._create_user(self.username, self.password)
         # pass in Basic HTTP Authentication headers, invalid user/pass
         response = self.client.get(url,
