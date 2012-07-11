@@ -9,7 +9,7 @@ from main.forms import DataSetImportForm, FormhubImportForm, DataValueSetForm, F
 
 from main.models import FormhubService, DataQueue, DataValueSet, DataElement, FormDataElement, DataSet
 from main.tasks import process_dqueue
-from main.utils import process_data_queue
+from main.utils import process_data_queue, basic_http_auth
 
 
 def main(request):
@@ -41,6 +41,7 @@ def initiate_formhub_request(request, id_string, uuid):
                             mimetype='application/json')
 
 
+@basic_http_auth
 @login_required
 def dataset_import(request):
     context = RequestContext(request)
