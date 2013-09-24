@@ -27,7 +27,7 @@ class FormhubService(models.Model):
         rs = ()
         if y.has_key('children'):
             for v in y['children']:
-                rs += ((v['name'], v['label']),)
+                rs += ((v['name'], v.get('label', v['name'])),)
         return rs
 
 
