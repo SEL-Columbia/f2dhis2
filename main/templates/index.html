@@ -6,17 +6,17 @@
 
 <div class="row-fluid">
     <div class="span4">
-        <h4><a href="{% url dataset-import %}">1. Import DHIS2 DataSet</a></h4>
+        <h4><a href="{% url 'dataset-import' %}">1. Import DHIS2 DataSet</a></h4>
 
         <p>e.g http://apps.dhis2.org/demo/api/dataSets/aLpVgfXiz0f
             <br/>
             This imports the DataSet, attached DataElements and Organization
             Units
         </p>
-        <a href="{% url datasets %}">View Imported Datasets</a>
+        <a href="{% url 'datasets' %}">View Imported Datasets</a>
     </div>
     <div class="span4">
-        <h4><a href="{% url fh-import %}">2. Import Formhub Form</a></h4>
+        <h4><a href="{% url 'fh-import' %}">2. Import Formhub Form</a></h4>
 
         <p>e.g http://formhub.org/ukanga/forms/dhis2form
             <br/>
@@ -30,10 +30,10 @@
             </li>
         </ul>
         </p>
-        <a href="{% url fh-forms %}">View Imported Forms</a>
+        <a href="{% url 'fh-forms' %}">View Imported Forms</a>
     </div>
     <div class="span4">
-        <h4><a href="{% url create-dvs %}">3. Create a Value DataSet</a></h4>
+        <h4><a href="{% url 'create-dvs' %}">3. Create a Value DataSet</a></h4>
 
         <p>Links the Formhub form to the DHIS2 DataSet.
         </p>
@@ -43,7 +43,7 @@
 <div class="row-fluid">
 
     <div class="span4">
-        <h4><a href="{% url match-de %}"> 4. Specify form data elements</a></h4>
+        <h4><a href="{% url 'match-de' %}"> 4. Specify form data elements</a></h4>
 
         <p>
         <ul>

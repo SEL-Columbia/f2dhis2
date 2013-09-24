@@ -3,7 +3,7 @@
 
 {% block content %}
         {% if form %}
-<form id="dvsdeform" action="{% url match-de %}" method="post" enctype="multipart/form-data">
+<form id="dvsdeform" action="{% url 'match-de' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <table id="dvsdeformtable">
         {{ form.as_table }}
@@ -38,7 +38,7 @@
                 };
                 var reloadForm = function(){
                     if(this.value != ""){
-                        url = '{% url match-de-form 0 %}'.replace(0, this.value)
+                        url = '{% url 'match-de-form' 0 %}'.replace(0, this.value)
                         $.get(url + '?dvs='+this.value, function(data){
                             $("#dvsdeformtable").html(data);
                             $("#id_dvs").on("change", reloadForm);
