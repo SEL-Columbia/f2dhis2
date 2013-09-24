@@ -9,8 +9,7 @@ from main.utils import load_from_dhis2, load_form_from_formhub
 
 
 class DataSetImportForm(forms.Form):
-    data_set_url = forms.URLField(verify_exists=False,
-        label="DHIS2 DataSet URL", required=True)
+    data_set_url = forms.URLField(label="DHIS2 DataSet URL", required=True)
 
     def ds_import(self):
         if self.is_valid():
@@ -55,8 +54,7 @@ class DataSetImportForm(forms.Form):
 
 
 class FormhubImportForm(forms.Form):
-    formhub_url = forms.URLField(verify_exists=False,
-        label=_(u"Formhub Form URL"), required=True)
+    formhub_url = forms.URLField(label=_(u"Formhub Form URL"), required=True)
 
     def fh_import(self):
         if self.is_valid():
