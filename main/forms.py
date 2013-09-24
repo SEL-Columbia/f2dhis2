@@ -42,9 +42,9 @@ class DataSetImportForm(forms.Form):
                         data_set=ds)
                     element.save()
                 for orgunit in data['organisationUnits']:
-                    org = OrganizationUnit(org_unit_id=orgunit['id'],
+                    org, created = OrganizationUnit.objects.get_or_create(org_unit_id=orgunit['id'],
                         name=orgunit['name'])
-                    org.save()
+                    #org.save()
                     ds.organizations.add(org)
                 summary['dataSet'] = ds
                 summary['dataElements'] = data['dataElements'].__len__()
