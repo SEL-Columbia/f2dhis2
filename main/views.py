@@ -1,13 +1,16 @@
+import json
+
 from django.contrib.auth.decorators import login_required
 from django.db.utils import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from django.utils import simplejson
 from django.utils.translation import ugettext as _
-from main.forms import DataSetImportForm, FormhubImportForm, DataValueSetForm, FHDataElementForm
+from main.forms import (DataSetImportForm, FormhubImportForm,
+                        DataValueSetForm, FHDataElementForm)
 
-from main.models import FormhubService, DataQueue, DataValueSet, DataElement, FormDataElement, DataSet
+from main.models import (FormhubService, DataQueue, DataValueSet, DataElement,
+                         FormDataElement, DataSet)
 from main.tasks import process_dqueue
 from main.utils import process_data_queue, basic_http_auth
 
@@ -19,6 +22,7 @@ def main(request):
 
 def initiate_formhub_request(request, id_string, uuid):
     context = RequestContext(request)
+    import ipdb; ipdb.set_trace()
     try:
         fs = FormhubService.objects.get(id_string=id_string)
     except FormhubService.DoesNotExist:
@@ -35,10 +39,9 @@ def initiate_formhub_request(request, id_string, uuid):
     response = {"status": context.status, "contents": context.contents}
     if 'callback' in request.GET and request.GET.get('callback') != '':
         callback = request.GET.get('callback')
-        return HttpResponse("%s(%s)" % (callback, simplejson.dumps(response)),
-                                                mimetype='application/json')
-    return HttpResponse(simplejson.dumps(response),
+        return HttpResponse("%s(%s)" % (callback, json.dumps(response)),
                             mimetype='application/json')
+    return HttpResponse(json.dumps(response), mimetype='application/json')
 
 
 @basic_http_auth
@@ -140,7 +143,7 @@ def match_datavalueset_to_data_elements(request):
         if request.is_ajax():
             response = {'success': context.success, 'msg': context.msg,
                         'fde_list': context.fde_list}
-            return HttpResponse(simplejson.dumps(response))
+            return HttpResponse(json.dumps(response))
     context.form = form
     return  render_to_response("dvs-to-elements.html", context_instance=context)
 

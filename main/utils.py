@@ -1,4 +1,6 @@
 import base64
+import json
+
 from datetime import datetime
 from functools import wraps
 import urllib
@@ -8,7 +10,6 @@ import httplib2
 import os.path
 
 from django.conf import settings
-from django.utils import simplejson
 from django.template.base import Template
 from django.template.context import Context
 
@@ -98,7 +99,7 @@ def get_data_from_formub(dataValueSet, id=None):
     req, content = http.request(data_api_path, 'GET')
     if req.status == 200:
         try:
-            return simplejson.loads(content)
+            return json.loads(content)
         except ValueError, e:
             # TODO: Handle it gracefully
             raise e
@@ -110,9 +111,8 @@ def send_to_dhis2(xml):
     headers = {"Content-Type": "application/xml", 'Authorization' : 'Basic ' + auth}
     http = httplib2.Http()
     http.add_credentials(settings.DHIS2_USERNAME, settings.DHIS2_PASSWORD)
-    resp, content = http.request(settings.DHIS2_DATA_VALUE_SET_URL, 'POST',
-        body=xml,
-        headers=headers)
+    resp, content = http.request(
+        settings.DHIS2_DATA_VALUE_SET_URL, 'POST', body=xml, headers=headers)
     return resp.status, content
 
 
@@ -120,7 +120,8 @@ def load_from_dhis2(url):
     """
         returns content loaded by given dhis2 url
     """
-    auth = base64.encodestring( settings.DHIS2_USERNAME + ':' + settings.DHIS2_PASSWORD )
+    auth = base64.encodestring(
+        settings.DHIS2_USERNAME + ':' + settings.DHIS2_PASSWORD)
     headers = {'Authorization' : 'Basic ' + auth}
     http = httplib2.Http()
     http.add_credentials(settings.DHIS2_USERNAME, settings.DHIS2_PASSWORD)
@@ -148,6 +149,7 @@ def process_data_queue():
     returns number of processed records
     """
     processed = 0
+    import ipdb; ipdb.set_trace()
     for dq in DataQueue.objects.filter(processed=False):
         success = False
         for dvs in DataValueSet.objects.filter(service=dq.service):
@@ -178,11 +180,12 @@ def load_form_from_formhub(url):
     req, content = http.request(url, 'GET')
     if req.status == 200:
         try:
-            return simplejson.loads(content)
+            return json.loads(content)
         except ValueError, e:
             # TODO: Handle it gracefully
             raise e
     return None
+
 
 def _helper_auth_helper(request):
     if request.user and request.user.is_authenticated():
