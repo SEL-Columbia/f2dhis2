@@ -133,8 +133,6 @@ INSTALLED_APPS = (
 import djcelery
 djcelery.setup_loader()
 BROKER_URL = "django://"
-if DEBUG:
-    CELERY_ALWAYS_EAGER = True
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
