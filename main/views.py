@@ -22,7 +22,6 @@ def main(request):
 
 def initiate_formhub_request(request, id_string, uuid):
     context = RequestContext(request)
-    import ipdb; ipdb.set_trace()
     try:
         fs = FormhubService.objects.get(id_string=id_string)
     except FormhubService.DoesNotExist:
