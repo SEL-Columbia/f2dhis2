@@ -50,7 +50,7 @@ class DataValueSetInterface(object):
             period = strdate.strftime("%Y")
         elif self.dataValueSet.data_set.frequency == DataSet.FREQUENCY_MONTHLY:
             period = strdate.strftime("%Y%m")
-        elif  self.dataValueSet.data_set.frequency == DataSet.FREQUENCY_WEEKLY:
+        elif self.dataValueSet.data_set.frequency == DataSet.FREQUENCY_WEEKLY:
             period =  "%s%s" % (strdate.strftime("%Y"),
                                 strdate.isocalendar()[1])
         elif self.dataValueSet.data_set.frequency == DataSet.FREQUENCY_DAILY:
@@ -75,7 +75,7 @@ class DataValueSetInterface(object):
             self.load_data_elements()
             rs['period'] = self.get_period()
             rs['completeDate'] = self.get_complete_date()
-            rs['dataElements'] =  self.data_elements
+            rs['dataElements'] = self.data_elements
         return rs
 
     def render(self):

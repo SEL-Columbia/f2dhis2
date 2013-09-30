@@ -144,7 +144,7 @@ def match_datavalueset_to_data_elements(request):
                         'fde_list': context.fde_list}
             return HttpResponse(json.dumps(response))
     context.form = form
-    return  render_to_response("dvs-to-elements.html", context_instance=context)
+    return render_to_response("dvs-to-elements.html", context_instance=context)
 
 
 def get_matchdvsform(request, dvs_id):
