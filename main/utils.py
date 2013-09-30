@@ -149,6 +149,7 @@ def process_data_queue():
     returns number of processed records
     """
     processed = 0
+    raise ValueError("value error")
     for dq in DataQueue.objects.filter(processed=False):
         success = False
         for dvs in DataValueSet.objects.filter(service=dq.service):

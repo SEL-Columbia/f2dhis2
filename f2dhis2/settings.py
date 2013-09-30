@@ -1,4 +1,8 @@
 import os
+import logging
+
+from django.utils.log import AdminEmailHandler
+from celery.signals import after_setup_logger
 
 # Django settings for f2dhis2 project.
 
@@ -150,21 +154,29 @@ LOGGING = {
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler'
-        },
+        }
     },
     'loggers': {
         'django.request': {
             'handlers': ['mail_admins', 'console'],
             'level': 'ERROR',
             'propagate': True,
-        },
+        }
     }
 }
 
 
+def configure_logging(logger, **kwargs):
+    admin_email_handler = AdminEmailHandler()
+    admin_email_handler.setLevel(logging.ERROR)
+    logger.addHandler(admin_email_handler)
+
+after_setup_logger.connect(configure_logging)
+
 DHIS2_DATA_VALUE_SET_URL = "http://apps.dhis2.org/demo/api/dataValueSets"
 DHIS2_USERNAME = "admin"
 DHIS2_PASSWORD = "district"
+
 
 try:
     from local_settings import *
